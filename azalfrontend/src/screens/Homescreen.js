@@ -96,13 +96,13 @@ const Homescreen = ({id,brand,description,image,rating,title,thumbnail,price}) =
           key={`items-${idx}`} className="item"
           >
             <img classname="img1" id="img1"
-            src={img1}/>
+            src={item.images}/>
             <p>{item.title}</p>
             <h4>{item.brand}</h4>
          
             <p>Stock:{item.stock}</p>
            <b><p>Price:&#8377;{item.price}</p></b>
-           <p>{item.discountPercentage}%OFF</p>
+           <p className='text-danger'>{item.discountPercentage}%OFF</p>
             <p>{getRating(item.rating)}</p>
             <p className="category">{item.category}</p>
             <button onClick={ ()=>{
