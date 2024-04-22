@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import "../App.css";
 import { useDispatch } from "react-redux";
-import { addcartitemRedux } from "../redux/productsslice/productslice";
+import { useNavigate } from 'react-router-dom'
+import { addOneProduct, addcartitemRedux } from "../redux/productsslice/productslice";
 
 const Homescreen = ({
   id,
@@ -16,7 +17,17 @@ const Homescreen = ({
 }) => {
   const data = useSelector((state) => state.products.allProducts);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
+  async function preview(key){
+    const response=await fetch(`https://ecommerce-sandy-omega.vercel.app/products/${key}`)
+    .then(res=> res.json())
+    .then(res1=>res1)
+    console.log(response)
+    dispatch(addOneProduct(response))
+    navigate('/Productscreen')
+  }
+  
   const userData = useSelector((state) => state.users);
   if (userData !== "") {
     console.log(userData);
@@ -95,7 +106,7 @@ const Homescreen = ({
         style={{
           display: "grid",
           gridTemplateRows: "1fr ",
-          gridTemplateColumns: "repeat( auto-fill,minmax(250px,1fr))",
+          gridTemplateColumns: "repeat( auto-fill,minmax(200px,1fr))",
         }}
       >
         {filterProduct.map((item, idx) => (
@@ -103,6 +114,7 @@ const Homescreen = ({
             key={`items-${idx}`}
             className="item"
             style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
+            onClick={()=>{preview(item.id)}}
           >
        
             <img
@@ -110,7 +122,7 @@ const Homescreen = ({
               id="img1"
               alt="img"
               src={item.images}
-              style={{ height: "200px", width: "200px" }}
+              style={{ height: "40%", width: "100%" }}
             />
             <p>{item.title}</p>
             <h4>{item.brand}</h4>
